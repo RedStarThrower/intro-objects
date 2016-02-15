@@ -5,12 +5,25 @@
 // of objects with first and last names and returns an array 
 // of strings, where each string is a customer's full name.
 
+
+
 var customers = [
     { first: 'Joe', last: 'Blogs'},
     { first: 'John', last: 'Smith'},
     { first: 'Dave', last: 'Jones'},
     { first: 'Jack', last: 'White'}
 ]
+
+
+var getFullNames = function(inputArray) {
+    var newArray = []
+    for (var i = 0; i < inputArray.length; i++) {
+        var fullNameString = ""
+        fullNameString = inputArray[i].first + " " + inputArray[i].last
+        newArray.push(fullNameString)
+    }
+   return newArray 
+}
 
 console.assert(getFullNames(customers)[1] === "John Smith")
 
@@ -19,6 +32,23 @@ console.assert(getFullNames(customers)[1] === "John Smith")
 
 // Write a function called getCounts that takes a string of text as input and returns
 // an object which stores the frequency of each word in the string.
+
+var getCounts = function(stringOfText) {
+    var wordCountObject = {}
+    var wordArray = stringOfText.toLowerCase().split(" ")
+    for (var i = 0; i < wordArray.length; i++) {
+         var word = wordArray[i]
+         if (wordCountObject.hasOwnProperty(word) === true) {
+            wordCountObject[word] += 1
+            }   
+         else {
+            wordCountObject[word] = 1
+        }
+
+    }
+    return wordCountObject
+}
+
 
 var text = "It’s obviously not the case, but T’Challa—the Black Panther and mythical ruler of Wakanda—has always struck as the product of the black nationalist dream, a walking revocation of white supremacist myth. T’Challa isn’t just a superhero in the physical sense, he is one of the smartest people in the world, ruling the most advanced civilization on the planet. Wakanda’s status as ever-independent seems to eerily parallel Ethiopia’s history as well as its place in the broader black imagination. Maybe it’s only me, but I can’t read Jason Aaron’s superb “See Wakanda And Die” and not think of Adowa.\
 Comic book creators, like all story-tellers, get great mileage out of myth and history. But given the society we live in, some people’s myths are privileged over others. Some of that is changing, no doubt. In the more recent incarnations of T’Challa you can see Christopher Priest invoking the language of the Hausa or Reginald Hudlin employing the legacy of colonialism. These were shrewd artistic decisions, rooted in the fact that anyone writing Black Panther enjoys an immediate, if paradoxical, advantage: the black diaspora is terra incognita for much of the world. What does the broader world really know of Adowa? Of Nanny and Cudjoe? Of the Maji-Maji rebellion? Of Legba and Oshun?  Of Shine? Of High John The Conqueror? T’Challa’s writers have always enjoyed access to a rich and under-utilized pool of allusion and invocation."
@@ -35,8 +65,22 @@ console.assert(wordFrequencyObject.black === 5)
 // The dog object should have attributes like legs, weight and color. It should have a 
 // speak() method that receives a string as input and returns a new version of that 
 // string where the first letter of every word is replaced with the letter 'r'.
+var GenerateDog = function(legsValue, weightValue, colorValue) {
+    this.legs = legsValue,
+    this.weight = weightValue,
+    this.color = colorValue,
+    this.speak = function(inputString) {
+        var newString = inputString.split(" ")
+        for (var i = 0; i < newString.length; i++) {
+            newString[i] = "r" + newString[i].substr(1) 
+        }
+        return newString.join(" ")
+    }
+}
 
-var dog = generateDog()
+
+var dog = new GenerateDog(4, 12, "black")
+dog.speak("i love you")
 
 console.assert(dog.legs === 4)
 console.assert(dog.speak('i love you') === 'r rove rou')
@@ -52,6 +96,15 @@ console.assert(dog.speak('i love you') === 'r rove rou')
 // ---
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}]
 
+var pluck = function(inputArray, inputKey) {
+    var newArray = []
+    for (var i = 0; i < inputArray.length; i++) {
+        var oneObject = inputArray[i]
+        newArray.push(oneObject[inputKey])
+    }
+    return newArray
+}
+
 console.assert(pluck(stooges, 'name')[0] === 'moe')
 console.assert(pluck(stooges, 'age')[2] === 60)
 
@@ -62,12 +115,28 @@ console.assert(pluck(stooges, 'age')[2] === 60)
 // and returns an array of those same objects, but with the properties and 
 // values reversed.
 
-var users = [{obama: 'president@gmail.com'},{trump: 'americamoneywin@yahoo.com'},{bush: 'jeb!@hotmail.com'}]
+var reverseObjects = function (objectsArray) {
+   var newArray = []
+   var newObject = {}
+   for (var i = 0; i < objectsArray.length; i++) {
+       var singleObject = objectsArray[i]
+       for(var prop in singleObject) {
+           if(singleObject.hasOwnProperty(prop)) {
+               newObject[singleObject[prop]] = prop
+           }
+       }
+       newArray.push(newObject)
+    }
+   return newArray
+}
+
+var users = [{obama: 'president@gmail.com',hobby: 'basketball'},{trump: 'americamoneywin@yahoo.com', hobby:'dealmaking'},{bush: 'jeb!@hotmail.com',hobby:'portraiture'}]
 
 var flippedUsers = reverseObjects(users)
 
-console.assert(flippedUsers['president@gmail.com'] === 'obama')
-console.assert(flippedUsers['americamoneywin@yahoo.com'] === 'trump')
+console.assert(flippedUsers[0]['president@gmail.com'] === 'obama')
+console.assert(flippedUsers[1]['americamoneywin@yahoo.com'] === 'trump')
+console.assert(flippedUsers[1].dealmaking === 'hobby')
 
 // Part 6
 
@@ -75,7 +144,7 @@ console.assert(flippedUsers['americamoneywin@yahoo.com'] === 'trump')
 
 var makeItTom = function(object) {
 	for (var prop in object) {
-		if (prop === 'name') object.prop = 'Tom'
+		if (prop === 'name') object[prop] = 'Tom'
 	}
 	return object
 }
@@ -106,6 +175,21 @@ console.assert(planetTom['prop'] === undefined)
 // a properties object. It should return a new list containing only those
 // objects that meet the key-value conditions.
 // -----------
+var where = function(arrOfObjects, propObject) {
+    var newArray = []
+    for (var i = 0; i < arrOfObjects.length; i++) {
+        var singleObject = arrOfObjects[i]
+        for (var prop in singleObject) {
+            if (propObject instanceof  singleObject) {
+                newArray.push(propObject)
+            }
+
+        }
+
+    }
+    return newArray
+}
+
 
 var plays = [
     {title: "Cymbeline", author: "Shakespeare", year: 1623},
