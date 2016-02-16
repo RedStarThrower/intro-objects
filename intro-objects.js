@@ -49,6 +49,23 @@ var getCounts = function(stringOfText) {
     return wordCountObject
 }
 
+var getCounts = function(passage) {
+    var wordFreqObject = {}
+    var arr = passage.toLowerCase().split(" ")
+    for (var i = 0; i < arr.length; i++) {
+        var word = arr[i]
+        if (word in wordFreqObject) {
+            wordFreqObject = wordFreqObject[word] + 1
+        }
+        else {
+            wordFreqObject[word] = 1
+        }
+        var wordFrequencyObject = wordFreqObject
+    }
+    return wordFrequencyObject
+
+}
+
 
 var text = "It’s obviously not the case, but T’Challa—the Black Panther and mythical ruler of Wakanda—has always struck as the product of the black nationalist dream, a walking revocation of white supremacist myth. T’Challa isn’t just a superhero in the physical sense, he is one of the smartest people in the world, ruling the most advanced civilization on the planet. Wakanda’s status as ever-independent seems to eerily parallel Ethiopia’s history as well as its place in the broader black imagination. Maybe it’s only me, but I can’t read Jason Aaron’s superb “See Wakanda And Die” and not think of Adowa.\
 Comic book creators, like all story-tellers, get great mileage out of myth and history. But given the society we live in, some people’s myths are privileged over others. Some of that is changing, no doubt. In the more recent incarnations of T’Challa you can see Christopher Priest invoking the language of the Hausa or Reginald Hudlin employing the legacy of colonialism. These were shrewd artistic decisions, rooted in the fact that anyone writing Black Panther enjoys an immediate, if paradoxical, advantage: the black diaspora is terra incognita for much of the world. What does the broader world really know of Adowa? Of Nanny and Cudjoe? Of the Maji-Maji rebellion? Of Legba and Oshun?  Of Shine? Of High John The Conqueror? T’Challa’s writers have always enjoyed access to a rich and under-utilized pool of allusion and invocation."
@@ -180,7 +197,7 @@ var where = function(arrOfObjects, propObject) {
     for (var i = 0; i < arrOfObjects.length; i++) {
         var singleObject = arrOfObjects[i]
         for (var prop in singleObject) {
-            if (propObject.hasOwnProperty()) {
+            if (propObject.hasOwnProperty(prop)) {
                 newArray.push(propObject)
             }
 
@@ -191,29 +208,29 @@ var where = function(arrOfObjects, propObject) {
 }
 
 
-// var plays = [
-//     {title: "Cymbeline", author: "Shakespeare", year: 1623},
-//     {title: "The Tempest", author: "Shakespeare", year: 1623},
-//     {title: "Hamlet", author: "Shakespeare", year: 1603},
-//     {title: "A Midsummer Night's Dream", author: "Shakespeare", year: 1600},
-//     {title: "Macbeth", author: "Shakespeare", year: 1620},
-//     {title: "Death of a Salesman", author: "Arthur Miller", year: 1949},
-//     {title: "Two Blind Mice", author: "Samuel and Bella Spewack", year: 1949}
-// ]
+var plays = [
+    {title: "Cymbeline", author: "Shakespeare", year: 1623},
+    {title: "The Tempest", author: "Shakespeare", year: 1623},
+    {title: "Hamlet", author: "Shakespeare", year: 1603},
+    {title: "A Midsummer Night's Dream", author: "Shakespeare", year: 1600},
+    {title: "Macbeth", author: "Shakespeare", year: 1620},
+    {title: "Death of a Salesman", author: "Arthur Miller", year: 1949},
+    {title: "Two Blind Mice", author: "Samuel and Bella Spewack", year: 1949}
+]
 
-// var sh8spr = where(plays, {author: "Shakespeare"})
-// console.assert(sh8spr instanceof Array)
-// console.assert(sh8spr.length === 5)
-// console.assert(sh8spr[0].title === "Cymbeline")
+var sh8spr = where(plays, {author: "Shakespeare"})
+console.assert(sh8spr instanceof Array)
+console.assert(sh8spr.length === 5)
+console.assert(sh8spr[0].title === "Cymbeline")
 
-// sh8spr = where(plays, {author: "Shakespeare", year: 1611})
-// console.assert(sh8spr.length === 0)
+sh8spr = where(plays, {author: "Shakespeare", year: 1611})
+console.assert(sh8spr.length === 0)
 
-// sh8spr = where(plays, {author: "Shakespeare", year: 1623})
-// console.assert(sh8spr.length === 2)
+sh8spr = where(plays, {author: "Shakespeare", year: 1623})
+console.assert(sh8spr.length === 2)
 
-// var midcentury = where(plays, {year: 1949})
-// console.assert(midcentury.length === 2)
+var midcentury = where(plays, {year: 1949})
+console.assert(midcentury.length === 2)
 
 
 // Part 8
